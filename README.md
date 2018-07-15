@@ -1,4 +1,4 @@
-# AudioSpreadsheetSlackAddon
+# Slack Addon Installation Instructions
 
 Add the slack integration code to your spreadsheet:
 1) Open your copy of the Game Audio Spreadsheet Template
