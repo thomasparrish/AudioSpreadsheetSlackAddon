@@ -1,5 +1,5 @@
 /************************************************************
-Slack Add-On for Game Audio Spreadsheet Template
+Slack Integration for Game Audio Spreadsheet Template
 Author: Thomas Parrish
 
 This script gets information about an event marked as
