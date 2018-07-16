@@ -7,7 +7,7 @@ This script gets information about an event marked as
 to Slack.
 ************************************************************/
 
-/* If the user has not entered their data, ask them to */
+/* Create UI submenu to manage Slack settings */
 function myOnOpen(){
     var ui = SpreadsheetApp.getUi();
     var properties = PropertiesService.getScriptProperties();
