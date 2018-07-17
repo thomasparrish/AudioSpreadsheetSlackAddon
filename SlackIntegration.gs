@@ -12,14 +12,37 @@ function myOnOpen(){
     var ui = SpreadsheetApp.getUi();
     var properties = PropertiesService.getScriptProperties();
     properties.setProperty("Spreadsheet URL", SpreadsheetApp.getActiveSpreadsheet().getUrl());
-    ui.createMenu("Slack Options")
-    .addItem("Edit Webhook URL", "EditWebhookURL")
-    .addItem("Edit Slack Channel", "EditSlackChannel")
+    ui.createMenu("Slack")
+    .addSubMenu(ui.createMenu("Settings")
+        .addItem("Toggle Slack Alerts", "toggleSlack")
+        .addItem("Edit Webhook URL", "EditWebhookURL")
+        .addItem("Edit Slack Channel", "EditSlackChannel"))
     .addSeparator()
     .addItem("Help", "Help")
     .addToUi();
 }
 
+/* Sets the "UseSlack" script property, which controls whether or not Slack features work */
+function toggleSlack(){
+    var ui = SpreadsheetApp.getUi();
+    var properties = PropertiesService.getScriptProperties();
+    var response = ui.alert("Use Slack Alerts?", 
+                            "Would you like to use Slack alerts for this Spreadsheet? "+
+                                "You may turn Slack alerts off at any time from this same menu.",
+                            ui.ButtonSet.YES_NO_CANCEL);
+    if (response == "YES")
+    {
+        properties.setProperty("UseSlack", response);
+        ui.alert("Slack alerts turned ON");
+    }
+    else if (response == "NO")
+    {
+        properties.setProperty("UseSlack", response);
+        ui.alert("Slack alerts sturned OFF");
+    }
+}
+
+/* Change the webhook url that the alert should be sent to */
 function EditWebhookURL(){
     var ui = SpreadsheetApp.getUi();
     var properties = PropertiesService.getScriptProperties();
@@ -28,6 +51,7 @@ function EditWebhookURL(){
     ui.alert("Webhook URL updated");
 }
 
+/* Change the name of the channel the user wants the alert sent to */
 function EditSlackChannel(){
     var ui = SpreadsheetApp.getUi();
     var properties = PropertiesService.getScriptProperties();
@@ -36,6 +60,7 @@ function EditSlackChannel(){
     ui.alert("Target Slack channel updated");
 }
 
+/* Give the user information about the service */
 function Help(){
     var ui = SpreadsheetApp.getUi();
     ui.alert("To use this add-on, you must enter your Webhook URL and Slack channel name. "+
@@ -119,7 +144,7 @@ function postInGameToSlack(eventName, eventDescription, eventNotes){
     postResponse(channel, color, itemName, title, description, notes, link);
 }
 
-/* Function that takes the event information, and sends it to the written URL */
+/* Function that takes the event information, and sends it to the user-entered URL */
 function postResponse(channel, color, itemName, title, description, notes, link) {
   
   var properties = PropertiesService.getScriptProperties();
