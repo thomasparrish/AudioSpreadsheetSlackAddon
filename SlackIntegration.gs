@@ -7,11 +7,9 @@ This script gets information about an event marked as
 to Slack.
 ************************************************************/
 
-/* Create UI submenu to manage Slack settings */
-function myOnOpen(){
+/* Add custom UI menu */
+function onOpen(e){
     var ui = SpreadsheetApp.getUi();
-    var properties = PropertiesService.getScriptProperties();
-    properties.setProperty("Spreadsheet URL", SpreadsheetApp.getActiveSpreadsheet().getUrl());
     ui.createMenu("Slack")
     .addSubMenu(ui.createMenu("Settings")
         .addItem("Toggle Slack Alerts", "toggleSlack")
@@ -20,15 +18,16 @@ function myOnOpen(){
     .addSeparator()
     .addItem("Help", "Help")
     .addItem("Display Properties", "displayProperties")
+    .addItem("Create Property", "createProperty")
     .addToUi();
 }
 
-/* Debug function that displays the script properties from the spreadsheet's Slack dropdown menu */
-function displayProperties(){
-    SpreadsheetApp.getUi().alert("Slack Toggle: "+PropertiesService.getScriptProperties().getProperty("UseSlack")+"\n"+
-             "Webhook URL: "+PropertiesService.getScriptProperties().getProperty("Webhook URL")+"\n"+
-             "Spreadsheet URL: "+PropertiesService.getScriptProperties().getProperty("Spreadsheet URL")+"\n"+
-             "Slack Channel Name: "+PropertiesService.getScriptProperties().getProperty("Slack Channel Name"));
+/* Resets triggers for the project */
+function deleteTriggers() {
+  var allTriggers = ScriptApp.getProjectTriggers();
+  for (var i = 0; i < allTriggers.length; i++) {
+    ScriptApp.deleteTrigger(allTriggers[i]);
+  }
 }
 
 /* Sets the "UseSlack" script property, which controls whether or not Slack features work */
@@ -39,6 +38,7 @@ function toggleSlack(){
                             "Would you like to use Slack alerts for this Spreadsheet? "+
                                 "You may turn Slack alerts off at any time from this same menu.",
                             ui.ButtonSet.YES_NO_CANCEL);
+    
     if (response == "YES")
     {
         properties.setProperty("UseSlack", response);
@@ -50,10 +50,16 @@ function toggleSlack(){
         {
             EditSlackChannel();
         }
+        deleteTriggers();
+        ScriptApp.newTrigger("myOnEdit")
+                 .forSpreadsheet(SpreadsheetApp.getActive())
+                 .onEdit()
+                 .create();
         ui.alert("Slack alerts turned ON");
     }
     else if (response == "NO")
     {
+        deleteTriggers();
         properties.setProperty("UseSlack", response);
         ui.alert("Slack alerts turned OFF");
     }
