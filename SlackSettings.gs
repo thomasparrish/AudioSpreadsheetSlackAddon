@@ -61,6 +61,14 @@ function Help(){
              "the updates to be sent.");
 }
 
+/* Display the script properties from the spreadsheet's Slack dropdown menu */
+function displayProperties(){
+    SpreadsheetApp.getUi().alert("Receive Slack Alerts: "+PropertiesService.getScriptProperties().getProperty("UseSlack")+"\n"+
+             "Webhook URL: "+PropertiesService.getScriptProperties().getProperty("Webhook URL")+"\n"+
+             "Spreadsheet URL: "+PropertiesService.getScriptProperties().getProperty("Spreadsheet URL")+"\n"+
+             "Slack Channel Name: "+PropertiesService.getScriptProperties().getProperty("Slack Channel Name"));
+}
+
 /* Resets triggers for the project */
 function deleteTriggers() {
   var allTriggers = ScriptApp.getProjectTriggers();
