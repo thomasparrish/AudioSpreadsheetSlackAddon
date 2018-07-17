@@ -19,7 +19,16 @@ function myOnOpen(){
         .addItem("Edit Slack Channel", "EditSlackChannel"))
     .addSeparator()
     .addItem("Help", "Help")
+    .addItem("Display Properties", "displayProperties")
     .addToUi();
+}
+
+/* Debug function that displays the script properties from the spreadsheet's Slack dropdown menu */
+function displayProperties(){
+    SpreadsheetApp.getUi().alert("Slack Toggle: "+PropertiesService.getScriptProperties().getProperty("UseSlack")+"\n"+
+             "Webhook URL: "+PropertiesService.getScriptProperties().getProperty("Webhook URL")+"\n"+
+             "Spreadsheet URL: "+PropertiesService.getScriptProperties().getProperty("Spreadsheet URL")+"\n"+
+             "Slack Channel Name: "+PropertiesService.getScriptProperties().getProperty("Slack Channel Name"));
 }
 
 /* Sets the "UseSlack" script property, which controls whether or not Slack features work */
@@ -33,12 +42,20 @@ function toggleSlack(){
     if (response == "YES")
     {
         properties.setProperty("UseSlack", response);
+        if (properties.getProperty("Webhook URL") == "Not Set")
+        {
+            EditWebhookURL();
+        }
+        if (properties.getProperty("Slack Channel Name") == "Not Set")
+        {
+            EditSlackChannel();
+        }
         ui.alert("Slack alerts turned ON");
     }
     else if (response == "NO")
     {
         properties.setProperty("UseSlack", response);
-        ui.alert("Slack alerts sturned OFF");
+        ui.alert("Slack alerts turned OFF");
     }
 }
 
@@ -71,7 +88,8 @@ function Help(){
 
 /* Custom onEdit trigger needed to send data to Slack */
 function myOnEdit(e){
-    if (e.source.getActiveSheet().getName() == "SFX" || 
+    if (PropertiesService.getScriptProperties().getProperty("UseSlack") == "YES" && 
+        e.source.getActiveSheet().getName() == "SFX" || 
         e.source.getActiveSheet().getName() == "MUS" || 
         e.source.getActiveSheet().getName() == "VO")
     {
