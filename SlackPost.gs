@@ -54,30 +54,30 @@ function postResponse(channel, color, itemName, title, description, notes, link)
     "channel": "#" + channel,
     "attachments":[
        {
-          "fallback": "Oops, Tom sucks",   //Fallback message in case of error
-          "color": color,                  //Sidebar color
+          "fallback": "Audio Spreadsheet Update",   //Notification Message
+          "color": color,                           //Sidebar color
           "fields":[
              {
-                "title":title,             //Title of message
+                "title":title,                      //Title of message
                 "short":false
              },
              {
-                "title":"Event Name",      //Event Name
+                "title":"Event Name",               //Event Name
                 "value": itemName,
                 "short": false
              },
              {
-                "title":"Description",     //Event Description
+                "title":"Description",              //Event Description
                 "value": description,
                 "short": false
              },
              {
-                 "title":"Notes",          //Event Notes
+                 "title":"Notes",                   //Event Notes
                  "value": notes,
                  "short": false
              },
              {
-                "title":"Link",            //Spreadsheet link
+                "title":"Link",                     //Spreadsheet link
                 "value": link,
                 "short": false
              }

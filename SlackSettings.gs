@@ -10,15 +10,15 @@ function toggleSlack(){
     if (response == "YES")
     {
         properties.setProperty("UseSlack", response);
-        if (properties.getProperty("Webhook URL") == null || properties.getProperty("Webhook URL") == "")
+        if (properties.getProperty("Webhook URL") == null)
         {
             EditWebhookURL();
         }
-        if (properties.getProperty("Slack Channel Name") == null || properties.getProperty("Slack Channel Name") == "")
+        if (properties.getProperty("Slack Channel Name") == null)
         {
             EditSlackChannel();
         }
-        if (properties.getProperty("Spreadsheet URL") == null || properties.getProperty("Spreadsheet URL") == "")
+        if (properties.getProperty("Spreadsheet URL") == null)
         {
             properties.setProperty("Spreadsheet URL", SpreadsheetApp.getActiveSpreadsheet().getUrl());
         }

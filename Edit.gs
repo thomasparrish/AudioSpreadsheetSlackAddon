@@ -17,15 +17,29 @@ function onEdit(e){
             tagRange.sort( { column : colTag } );
         }
     }
-    else if(e.source.getActiveSheet().getName() == "MUS" || 
-            e.source.getActiveSheet().getName() == "SFX" || 
-            e.source.getActiveSheet().getName() == "VO") 
+    else if (e.source.getActiveSheet().getName() == "MUS" || 
+             e.source.getActiveSheet().getName() == "SFX" || 
+             e.source.getActiveSheet().getName() == "VO") 
     {
         //If an item was marked as "In Middleware", date stamp it
         inMiddleware(e.source.getActiveSheet(), e);
             
         //If an item was marked as "In Game", date stamp it
         inGame(e.source.getActiveSheet(), e);
+    } 
+    else if (e.source.getActiveSheet().getName() == "Home" &&
+             e.range.getColumn() == 14 && e.range.getRow() == 5)
+    {
+        if (e.value == "Wwise")
+        {
+            Logger.log("Is Wwise");
+            DisplayGameSyncsSheet();
+        }
+        else
+        {
+            Logger.log("Is other");
+            DisplayParametersSheet();
+        }
     }
 }
 
