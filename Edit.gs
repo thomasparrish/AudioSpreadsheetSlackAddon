@@ -1,10 +1,17 @@
-/* onEdit trigger for the game audio spreadsheet */
-
+// Contains relevent status options from the audio spreadsheet
 var Status = [
     "In "+SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Home").getRange('N5').getValue(),
     "In Game"
 ];
 
+/**************************************************************
+Function: onEdit
+ Stamps dates in the "In Wwise/FMOD" column if an event status 
+ is changed to "In Wwise" or "In FMOD"
+ 
+Inputs:
+  e: Event data from Google spreadsheet
+**************************************************************/
 function onEdit(e){
     if (e.source.getActiveSheet().getName() == "TagList"){
     
@@ -43,7 +50,15 @@ function onEdit(e){
     }
 }
 
-/* Custom onEdit trigger needed to send data to Slack */
+/**************************************************************
+Function: myOnEdit
+ Executes on spreadsheet edit. Needed to send data to slack,
+ because Google Sheets cannot execute scripts that require
+ authorization in simple trigger functions like onEdit()
+ 
+Inputs:
+  e: Event data from Google spreadsheet
+**************************************************************/
 function myOnEdit(e){
     if (PropertiesService.getScriptProperties().getProperty("UseSlack") == "YES" && 
         e.source.getActiveSheet().getName() == "SFX" || 

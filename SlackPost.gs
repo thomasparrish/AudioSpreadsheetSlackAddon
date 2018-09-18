@@ -1,19 +1,37 @@
-/* Get event name */
+/**************************************************************
+Function: getName
+  Returns the name of the relevent audio event
+**************************************************************/
 function getName(e){
     return e.source.getActiveSheet().getRange(e.range.getRow(), (e.range.getColumn() - 1)).getValue();
 }
 
-/* Get the event description */
+/**************************************************************
+Function: getName
+  Returns the description of the relevent audio event
+**************************************************************/
 function getDesc(e){
     return e.source.getActiveSheet().getRange(e.range.getRow(), (e.range.getColumn() + 2)).getValue();
 }
 
-/* Get the event notes */
+/**************************************************************
+Function: getName
+  Returns the notes for the relevent audio event
+**************************************************************/
 function getNotes(e){
     return e.source.getActiveSheet().getRange(e.range.getRow(), (e.range.getColumn() + 3)).getValue();
 }
 
-/* Send update to slack of the event that was created in middleware */
+/**************************************************************
+Function: postInWwiseToSlack
+  Sets message parameters and then sends message to Slack for
+  audio events marked "In Wwise"
+  
+Inputs:
+         eventName:  Audio event name
+  eventDescription:  Audio event description
+        eventNotes:  Audio event notes
+**************************************************************/
 function postInWwiseToSlack(eventName, eventDescription, eventNotes){
     var properties = PropertiesService.getScriptProperties();                                             //Gets list of script properties
     var channel = properties.getProperty("Slack Channel Name");                                           //Retrieve the Slack channel to post update in
@@ -29,7 +47,16 @@ function postInWwiseToSlack(eventName, eventDescription, eventNotes){
     postResponse(channel, color, itemName, title, description, notes, link);
 }
 
-/* Send update to Slack about the event that was implemented into the game */
+/**************************************************************
+Function: postInWwiseToSlack
+  Sets message parameters and then sends message to Slack for
+  audio events marked "In Game"
+  
+Inputs:
+         eventName:  Audio event name
+  eventDescription:  Audio event description
+        eventNotes:  Audio event notes
+**************************************************************/
 function postInGameToSlack(eventName, eventDescription, eventNotes){
     var properties = PropertiesService.getScriptProperties();        //Gets list of script properties
     var channel = properties.getProperty("Slack Channel Name");      //Retrieve the Slack channel to post update in
@@ -44,7 +71,19 @@ function postInGameToSlack(eventName, eventDescription, eventNotes){
     postResponse(channel, color, itemName, title, description, notes, link);
 }
 
-/* Function that takes the event information, and sends it to the user-entered URL */
+/**************************************************************
+Function: postResponse
+  Sends audio event updates to Slack
+  
+Inputs:
+      channel:  Name of destination text channel in Slack server
+        color:  Color of message sidebar
+     itemName:  Name of audio event
+        title:  Title of Slack message
+  description:  Audio event description
+        notes:  Audio event notes
+         link:  Link to audio event list spreadsheet
+**************************************************************/
 function postResponse(channel, color, itemName, title, description, notes, link) {
   
   var properties = PropertiesService.getScriptProperties();

@@ -1,4 +1,10 @@
-/* Add custom UI menu */
+/**************************************************************
+Function: onOpen
+ Executes on spreadsheet open. Creates UI menu dropdown.
+ 
+Inputs:
+  e: Event data from Google spreadsheet
+**************************************************************/
 function onOpen(e){
     var ui = SpreadsheetApp.getUi();
     ui.createMenu("Slack")

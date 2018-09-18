@@ -1,8 +1,12 @@
-var dateFormat = "M/d/yyyy";
-
-/* Stamps dates in the "In Wwise/FMOD" column
-if an event status is changed to "In Wwise"
-or "In FMOD" */
+/**************************************************************
+Function: inMiddleware
+ Stamps dates in the "In Wwise/FMOD" column if an event status 
+ is changed to "In Wwise" or "In FMOD"
+ 
+Inputs:
+  sheet: Sheet that the event happened on
+  event: The edit event from onEdit()
+**************************************************************/
 function inMiddleware(sheet, event) {
 
     //Event Status column
@@ -12,15 +16,22 @@ function inMiddleware(sheet, event) {
     if (event.range.getColumn() == colStatus && 
         event.value == Status[0])
     {
-        //Move two columns over from the status column, and write today's date
+        //Move four columns over from the status column, and write today's date
         var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-        var now = Utilities.formatDate(new Date(), "GMT-8", dateFormat);
+        var now = Utilities.formatDate(new Date(), "GMT-8", "''M/d/yy");
         sheet.getRange(event.range.getRow(), (event.range.getColumn() + 4)).setValue(now);
     }       
 }
 
-/* Stamps dates in the "In Game" column if
-an event status is changed to "In Game" */
+/**************************************************************
+Function: inMiddleware
+ Stamps dates in the "In Game" column if an event status 
+ is changed to "In Game"
+ 
+Inputs:
+  sheet: Sheet that the event happened on
+  event: The edit event from onEdit()
+**************************************************************/
 function inGame(sheet, event) {
 
     //Event Status column
@@ -29,9 +40,9 @@ function inGame(sheet, event) {
     if (event.range.getColumn() == colStatus && 
         event.value == Status[1])
     {
-        //Move three columns over from the status column, and write today's date
+        //Move five columns over from the status column, and write today's date
         var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-        var now = Utilities.formatDate(new Date(), "GMT-8", dateFormat);
+        var now = Utilities.formatDate(new Date(), "GMT-8", "''M/d/yy");
         sheet.getRange(event.range.getRow(), (event.range.getColumn() + 5)).setValue(now);
     }       
 }
